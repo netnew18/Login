@@ -150,34 +150,40 @@ setInterval(()=>{
 
 // YES button runs away
 
-const yes=document.getElementById("yes");
+const yes = document.getElementById("yes");
 
-document.addEventListener("mousemove",(e)=>{
+let x = 20;
+let y = 0;
 
-    const rect=yes.getBoundingClientRect();
+yes.style.left = x + "px";
+yes.style.top = y + "px";
 
-    const x=rect.left+rect.width/2;
-    const y=rect.top+rect.height/2;
+document.addEventListener("mousemove", (e) => {
 
-    const dx=e.clientX-x;
-    const dy=e.clientY-y;
+    const rect = yes.getBoundingClientRect();
 
-    const distance=Math.sqrt(dx*dx+dy*dy);
+    const centerX = rect.left + rect.width / 2;
+    const centerY = rect.top + rect.height / 2;
 
-    if(distance<50){
+    const dx = e.clientX - centerX;
+    const dy = e.clientY - centerY;
 
-        const angle=Math.atan2(dy,dx);
+    const distance = Math.sqrt(dx * dx + dy * dy);
 
-        const moveDistance = 80; // about 1 inch
+    if (distance < 80) {
 
-let newX = rect.left - Math.cos(angle) * moveDistance;
-let newY = rect.top - Math.sin(angle) * moveDistance;
+        const angle = Math.atan2(dy, dx);
 
-        newX=Math.max(0,Math.min(window.innerWidth-rect.width,newX));
-        newY=Math.max(0,Math.min(window.innerHeight-rect.height,newY));
+        x -= Math.cos(angle) * 30; // moves only about 30px
+        y -= Math.sin(angle) * 30;
 
-        yes.style.left=newX+"px";
-        yes.style.top=newY+"px";
+        x = Math.max(0, Math.min(220, x));
+        y = Math.max(-20, Math.min(20, y));
+
+        yes.style.left = x + "px";
+        yes.style.top = y + "px";
+    }
+});
     }
 
 });
