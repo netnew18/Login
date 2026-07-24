@@ -56,4 +56,132 @@ body{
     width:360px;
     padding:40px;
     border-radius:20px;
-    background:rgba(255,255,255
+    background:rgba(255,255,255,.35);
+    backdrop-filter:blur(12px);
+    box-shadow:0 15px 40px rgba(0,0,0,.15);
+    text-align:center;
+}
+
+h1{
+    color:#ff2f7d;
+    margin-bottom:30px;
+}
+
+.buttons{
+    position:relative;
+    height:80px;
+}
+
+button{
+    width:120px;
+    height:50px;
+    border:none;
+    border-radius:30px;
+    color:white;
+    cursor:pointer;
+    font-size:18px;
+    transition:.2s;
+}
+
+button:hover{
+    transform:scale(1.05);
+}
+
+#yes{
+    position:absolute;
+    left:50px;
+    top:15px;
+    background:#ff4f93;
+}
+
+#no{
+    position:absolute;
+    right:50px;
+    top:15px;
+    background:#777;
+}
+</style>
+</head>
+
+<body>
+
+<div class="hearts"></div>
+
+<div class="card">
+    <h1>💖 Do you want to come here? 💖</h1>
+
+    <div class="buttons">
+        <button id="yes">Yes</button>
+        <button id="no">No</button>
+    </div>
+</div>
+
+<script>
+
+// Floating Hearts
+
+const hearts=document.querySelector(".hearts");
+
+setInterval(()=>{
+
+    const h=document.createElement("div");
+
+    h.className="heart";
+    h.innerHTML=Math.random()>0.5?"💖":"💕";
+
+    h.style.left=Math.random()*100+"vw";
+    h.style.fontSize=(18+Math.random()*22)+"px";
+    h.style.animationDuration=(5+Math.random()*5)+"s";
+
+    hearts.appendChild(h);
+
+    setTimeout(()=>h.remove(),10000);
+
+},250);
+
+
+// YES button moves slightly away
+
+const yes=document.getElementById("yes");
+
+let posX=50;
+let posY=15;
+
+document.addEventListener("mousemove",(e)=>{
+
+    const rect=yes.getBoundingClientRect();
+
+    const centerX=rect.left+rect.width/2;
+    const centerY=rect.top+rect.height/2;
+
+    const dx=e.clientX-centerX;
+    const dy=e.clientY-centerY;
+
+    const distance=Math.sqrt(dx*dx+dy*dy);
+
+    if(distance<80){
+
+        const angle=Math.atan2(dy,dx);
+
+        posX-=Math.cos(angle)*25;
+        posY-=Math.sin(angle)*25;
+
+        posX=Math.max(10,Math.min(180,posX));
+        posY=Math.max(0,Math.min(30,posY));
+
+        yes.style.left=posX+"px";
+        yes.style.top=posY+"px";
+    }
+
+});
+
+document.getElementById("no").onclick=function(){
+
+    alert("🥺 Aww... Maybe next time.");
+
+};
+
+</script>
+
+</body>
+</html>
