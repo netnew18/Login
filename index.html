@@ -164,12 +164,14 @@ document.addEventListener("mousemove",(e)=>{
 
     const distance=Math.sqrt(dx*dx+dy*dy);
 
-    if(distance<130){
+    if(distance<50){
 
         const angle=Math.atan2(dy,dx);
 
-        let newX=rect.left-Math.cos(angle)*120;
-        let newY=rect.top-Math.sin(angle)*120;
+        const moveDistance = 80; // about 1 inch
+
+let newX = rect.left - Math.cos(angle) * moveDistance;
+let newY = rect.top - Math.sin(angle) * moveDistance;
 
         newX=Math.max(0,Math.min(window.innerWidth-rect.width,newX));
         newY=Math.max(0,Math.min(window.innerHeight-rect.height,newY));
